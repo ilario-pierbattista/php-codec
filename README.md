@@ -14,6 +14,14 @@ Php-codec is a partial porting of [io-ts](https://github.com/gcanti/io-ts) in PH
 
 ## Types and combinators
 
-| Type | Codec | 
-----------------
-| `null` | `Codecs::null()` |
+All the implemented codecs and combinators are exposed through methods of the class `Pybatt\Codec\Codecs`.
+
+| Typescript Type | PHP Type | Codec | 
+| --- | --- | --- |
+| `unknown` | `mixed` | TODO |
+| `null` | `null` | `Codecs::null()` |
+| `bool` | `bool` | `Codecs::bool()` |
+| `number` | `int` | `Codecs::int()` |
+| `number` | `float` | `Codecs::float()` |
+| `string` | `string` | `Codecs::string()` |
+| `'s'` | litteral of `string` | `Codecs::litteral('s')` |
