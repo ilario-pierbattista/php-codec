@@ -12,8 +12,8 @@ Php-codec is a partial porting of [io-ts](https://github.com/gcanti/io-ts) in PH
 
     composer require pybatt/php-codec
 
-## TODO
+## Types and combinators
 
-- [ ] Find a way to avoid exposing codecs implementation
-- [ ] Error reporting in case of `ClassFromArrayType` and `ArrayType` is too poor (all success or general error approach)
-- [ ] I need a way for piping codecs, eg: `(Type<A, I, A>, Type<B, A, B>) => Type<B, I, B>`
+| Type | Codec | 
+----------------
+| `null` | `Codecs::null()` |
