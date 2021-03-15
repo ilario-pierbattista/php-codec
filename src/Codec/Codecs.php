@@ -12,8 +12,8 @@ use Pybatt\Codec\Internal\Primitives\FloatType;
 use Pybatt\Codec\Internal\Primitives\IntType;
 use Pybatt\Codec\Internal\Primitives\NullType;
 use Pybatt\Codec\Internal\Primitives\StringType;
-use Pybatt\Codec\Internal\Type;
 use Pybatt\Codec\Internal\Useful\IntFromStringType;
+use Pybatt\Codec\Internal\Useful\RegexType;
 
 final class Codecs
 {
@@ -116,7 +116,7 @@ final class Codecs
      * @return (func_num_args() is 2 ? Codec<B, IA, OB>
      *   : (func_num_args() is 3 ? Codec<C, IA, OC>
      *   : (func_num_args() is 4 ? Codec<D, IA, OD>
-     *   : (func_num_args() is 5 ? Codec<E, IA, OC> : Type)
+     *   : (func_num_args() is 5 ? Codec<E, IA, OC> : Codec)
      * )))
      */
     public static function pipe(
@@ -154,5 +154,13 @@ final class Codecs
             },
             new UnionType($a, $b)
         );
+    }
+
+    /**
+     * @param string $regex
+     * @return Codec<string[], string, string[]>
+     */
+    public static function regex(string $regex): Codec {
+        return new RegexType($regex);
     }
 }
