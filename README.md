@@ -12,6 +12,15 @@ Php-codec is a partial porting of [io-ts](https://github.com/gcanti/io-ts) in PH
 
     composer require pybatt/php-codec
 
+## Introduction
+
+This is a partial porting of the fantastic [io-ts](https://github.com/gcanti/io-ts) library for Typescript.
+
+> A value of type `Type<A, O, I>` (called "codec") is the runtime representation of the static type `A`.
+
+I strongly recomend the reading of [The Idea](https://github.com/gcanti/io-ts/blob/master/index.md#the-idea) section
+from the io-ts documentation.
+
 ## Types and combinators
 
 All the implemented codecs and combinators are exposed through methods of the class `Pybatt\Codec\Codecs`.
