@@ -54,4 +54,13 @@ class ArchitectureTest extends \PhpAT\Test\ArchitectureTest
             ->andExcludingClassesThat(Selector::haveClassName(Codec::class))
             ->build();
     }
+
+    public function testCodecsMustExposeEveryInteralCodec(): Rule
+    {
+        return $this->newRule
+            ->classesThat(Selector::haveClassName(Codecs::class))
+            ->mustDependOn()
+            ->classesThat(Selector::extendClass(\Pybatt\Codec\Internal\Type::class))
+            ->build();
+    }
 }
