@@ -24,7 +24,7 @@ class AssociativeArrayType extends Type
     {
         parent::__construct(
             nameFromProps($props),
-            new AssociativeArrayRefine($props),
+            new AssociativeArrayRefiner($props),
             Encode::identity()
         );
         $this->props = $props;

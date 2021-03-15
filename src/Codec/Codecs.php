@@ -18,75 +18,75 @@ use Pybatt\Codec\Internal\Useful\IntFromStringType;
 final class Codecs
 {
     /**
-     * @return Type<null, mixed, null>
+     * @return Codec<null, mixed, null>
      */
-    public static function null(): Type
+    public static function null(): Codec
     {
         return new NullType();
     }
 
     /**
-     * @return Type<string, mixed, string>
+     * @return Codec<string, mixed, string>
      */
-    public static function string(): Type
+    public static function string(): Codec
     {
         return new StringType();
     }
 
     /**
-     * @return Type<int, mixed, int>
+     * @return Codec<int, mixed, int>
      */
-    public static function int(): Type
+    public static function int(): Codec
     {
         return new IntType();
     }
 
     /**
-     * @return Type<float, mixed, float>
+     * @return Codec<float, mixed, float>
      */
-    public static function float(): Type
+    public static function float(): Codec
     {
         return new FloatType();
     }
 
     /**
-     * @return Type<bool, mixed, bool>
+     * @return Codec<bool, mixed, bool>
      */
-    public static function bool(): Type
+    public static function bool(): Codec
     {
         return new BoolType();
     }
 
     /**
-     * @return Type<int, string, int>
+     * @return Codec<int, string, int>
      */
-    public static function intFromString(): Type
+    public static function intFromString(): Codec
     {
         return new IntFromStringType();
     }
 
     /**
      * @template T
-     * @param Type<T,mixed,T> $itemCodec
-     * @return ListType<T>
+     * @param Codec<T,mixed,T> $itemCodec
+     * @return Codec<list<T>, mixed, list<T>>
      */
-    public static function listt(Type $itemCodec): ListType
+    public static function listt(Codec $itemCodec): Codec
     {
         return new ListType($itemCodec);
     }
 
     /**
      * @template T
-     * @param non-empty-array<string, Type> $props
+     * @param non-empty-array<string, Codec> $props
      * @param callable(...mixed):T $factory
      * @param class-string<T> $fqcn
-     * @return Type<T, mixed, T>
+     * @return Codec<T, mixed, T>
      */
     public static function classFromArray(
         array $props,
         callable $factory,
         string $fqcn
-    ): Type
+    ): Codec
     {
         return self::pipe(
             new MapType(),
@@ -106,50 +106,50 @@ final class Codecs
      * @template E
      * @template OE
      *
-     * @param Type<A, IA, mixed> $a
-     * @param Type<B, A, OB> $b
-     * @param Type<C, B, OC> | null $c
-     * @param Type<D, C, OD> | null $d
-     * @param Type<E, D, OE> | null $e
+     * @param Codec<A, IA, mixed> $a
+     * @param Codec<B, A, OB> $b
+     * @param Codec<C, B, OC> | null $c
+     * @param Codec<D, C, OD> | null $d
+     * @param Codec<E, D, OE> | null $e
      *
      * // TODO must add type assertions
-     * @return (func_num_args() is 2 ? Type<B, IA, OB>
-     *   : (func_num_args() is 3 ? Type<C, IA, OC>
-     *   : (func_num_args() is 4 ? Type<D, IA, OD>
-     *   : (func_num_args() is 5 ? Type<E, IA, OC> : Type)
+     * @return (func_num_args() is 2 ? Codec<B, IA, OB>
+     *   : (func_num_args() is 3 ? Codec<C, IA, OC>
+     *   : (func_num_args() is 4 ? Codec<D, IA, OD>
+     *   : (func_num_args() is 5 ? Codec<E, IA, OC> : Type)
      * )))
      */
     public static function pipe(
-        Type $a,
-        Type $b,
-        ?Type $c = null,
-        ?Type $d = null,
-        ?Type $e = null
-    ): Type
+        Codec $a,
+        Codec $b,
+        ?Codec $c = null,
+        ?Codec $d = null,
+        ?Codec $e = null
+    ): Codec
     {
         // Order is important: composition is not commutative
         return new ComposeType(
             $a,
-            $c instanceof Type
+            $c instanceof Codec
                 ? self::pipe($b, $c, $d, $e)
                 : $b
         );
     }
 
     /**
-     * @param Type $a
-     * @param Type $b
-     * @param Type ...$others
-     * @return UnionType
+     * @param Codec $a
+     * @param Codec $b
+     * @param Codec ...$others
+     * @return Codec
      *
      * TODO simple to write, awful to type
      */
-    public static function union(Type $a, Type $b, Type ...$others): UnionType
+    public static function union(Codec $a, Codec $b, Codec ...$others): Codec
     {
         // Order is not important, unions should be commutatives
         return array_reduce(
             $others,
-            static function (Type $carry, Type $current): Type {
+            static function (Codec $carry, Codec $current): Codec {
                 return new UnionType($current, $carry);
             },
             new UnionType($a, $b)
