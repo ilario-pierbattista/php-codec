@@ -86,14 +86,6 @@ abstract class Type implements Codec
     }
 
     /**
-     * @return Encode<A, O>
-     */
-    public function getEncode(): Encode
-    {
-        return $this->encode;
-    }
-
-    /**
      * @param mixed $i
      * @return static
      * @psalm-assert I $i
