@@ -7,12 +7,14 @@ use Pybatt\Codec\Internal\Arrays\MapType;
 use Pybatt\Codec\Internal\Combinators\ClassFromArray;
 use Pybatt\Codec\Internal\Combinators\ComposeType;
 use Pybatt\Codec\Internal\Combinators\UnionType;
+use Pybatt\Codec\Internal\Experimental\AssociativeArrayType;
 use Pybatt\Codec\Internal\Primitives\BoolType;
 use Pybatt\Codec\Internal\Primitives\FloatType;
 use Pybatt\Codec\Internal\Primitives\IntType;
 use Pybatt\Codec\Internal\Primitives\LitteralType;
 use Pybatt\Codec\Internal\Primitives\NullType;
 use Pybatt\Codec\Internal\Primitives\StringType;
+use Pybatt\Codec\Internal\Type;
 use Pybatt\Codec\Internal\Useful\DateTimeFromIsoStringType;
 use Pybatt\Codec\Internal\Useful\IntFromStringType;
 use Pybatt\Codec\Internal\Useful\RegexType;
@@ -93,6 +95,14 @@ final class Codecs
     public static function listt(Codec $itemCodec): Codec
     {
         return new ListType($itemCodec);
+    }
+
+    /**
+     * @param non-empty-array<string, Type> $props
+     * @return Codec<array, mixed, array>
+     */
+    public static function associativeArray(array $props):Codec {
+        return new AssociativeArrayType($props);
     }
 
     /**
