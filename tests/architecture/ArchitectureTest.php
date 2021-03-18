@@ -6,6 +6,7 @@ use Pybatt\Codec\Codec;
 use Pybatt\Codec\Codecs;
 use Pybatt\Codec\Decoder;
 use Pybatt\Codec\Encoder;
+use Pybatt\Codec\Internal\Experimental\ExperimentalMarker;
 use Pybatt\Codec\Refiner;
 
 class ArchitectureTest extends \PhpAT\Test\ArchitectureTest
@@ -60,7 +61,7 @@ class ArchitectureTest extends \PhpAT\Test\ArchitectureTest
         return $this->newRule
             ->classesThat(Selector::haveClassName(Codecs::class))
             ->mustDependOn()
-            ->classesThat(Selector::extendClass(\Pybatt\Codec\Internal\Type::class))
+            ->andClassesThat(Selector::extendClass(\Pybatt\Codec\Internal\Type::class))
             ->build();
     }
 }

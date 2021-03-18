@@ -10,8 +10,10 @@ use Pybatt\Codec\Internal\Combinators\UnionType;
 use Pybatt\Codec\Internal\Primitives\BoolType;
 use Pybatt\Codec\Internal\Primitives\FloatType;
 use Pybatt\Codec\Internal\Primitives\IntType;
+use Pybatt\Codec\Internal\Primitives\LitteralType;
 use Pybatt\Codec\Internal\Primitives\NullType;
 use Pybatt\Codec\Internal\Primitives\StringType;
+use Pybatt\Codec\Internal\Useful\DateTimeFromIsoStringType;
 use Pybatt\Codec\Internal\Useful\IntFromStringType;
 use Pybatt\Codec\Internal\Useful\RegexType;
 
@@ -58,11 +60,29 @@ final class Codecs
     }
 
     /**
+     * @template T of bool | string | int
+     * @param T $x
+     * @return Codec<T, mixed, T>
+     */
+    public static function litteral($x): Codec
+    {
+        return new LitteralType($x);
+    }
+
+    /**
      * @return Codec<int, string, int>
      */
     public static function intFromString(): Codec
     {
         return new IntFromStringType();
+    }
+
+    /**
+     * @return Codec<\DateTime, string, \DateTime>
+     */
+    public static function dateTimeFromIsoString(): Codec
+    {
+        return new DateTimeFromIsoStringType();
     }
 
     /**

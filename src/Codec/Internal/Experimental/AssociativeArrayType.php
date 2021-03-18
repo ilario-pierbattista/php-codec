@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Pybatt\Codec\Internal\Arrays;
+namespace Pybatt\Codec\Internal\Experimental;
 
 use Pybatt\Codec\Internal\Encode;
 use Pybatt\Codec\Internal\Type;
