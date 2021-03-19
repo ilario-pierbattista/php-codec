@@ -39,7 +39,7 @@ All the implemented codecs and combinators are exposed through methods of the cl
 
 ## Examples
 
-For further examples take a look to the [examples](https://github.com/ilario-pierbattista/php-codec/tree/docs/tests/examples):
+For further examples take a look to the [examples](https://github.com/ilario-pierbattista/php-codec/tree/master/tests/examples):
 
 ```php
 use Pybatt\Codec\Codecs;
